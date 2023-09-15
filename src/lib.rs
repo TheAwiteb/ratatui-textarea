@@ -16,7 +16,6 @@ mod util;
 mod widget;
 mod word;
 
-
 #[cfg(feature = "crossterm")]
 #[allow(clippy::single_component_path_imports)]
 use crossterm;

@@ -1,12 +1,12 @@
 // We use empty backend for our benchmark instead of ratatui::backend::TestBackend to make impact of benchmark from ratatui
 // as small as possible.
 
-use std::io;
 use ratatui::backend::Backend;
 use ratatui::buffer::Cell;
 use ratatui::layout::Rect;
 use ratatui::Terminal;
 use ratatui_textarea::TextArea;
+use std::io;
 
 pub const LOREM: &[&str] = &[
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do",

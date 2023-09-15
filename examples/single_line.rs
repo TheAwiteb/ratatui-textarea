@@ -2,13 +2,13 @@ use crossterm::event::{DisableMouseCapture, EnableMouseCapture};
 use crossterm::terminal::{
     disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen,
 };
-use std::io;
 use ratatui::backend::CrosstermBackend;
 use ratatui::layout::{Constraint, Layout};
 use ratatui::style::{Color, Style};
 use ratatui::widgets::{Block, Borders};
 use ratatui::Terminal;
 use ratatui_textarea::{Input, Key, TextArea};
+use std::io;
 
 fn validate(textarea: &mut TextArea) -> bool {
     if let Err(err) = textarea.lines()[0].parse::<f64>() {
