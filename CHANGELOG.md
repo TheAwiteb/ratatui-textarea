@@ -30,6 +30,10 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 <!-- This section is for any bug fixes. -->
 <!-- Format: `- {The bug which was fixed title}. ([#{PR number}]({PR link}))` -->
 
+## [0.3.1] - 2023-09-15
+
+### Added
+- Update GitHub Actions workflows
 
 ## [0.3.0] - 2023-09-15
 - Initial release of forked project. See [original project](https://github.com/rhysd/tui-textarea) for previous changes.
