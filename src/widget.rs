@@ -1,9 +1,9 @@
 use crate::textarea::TextArea;
-use crate::tui::buffer::Buffer;
-use crate::tui::layout::Rect;
-use crate::tui::text::Text;
-use crate::tui::widgets::{Paragraph, Widget};
 use crate::util::num_digits;
+use ratatui::buffer::Buffer;
+use ratatui::layout::Rect;
+use ratatui::text::Text;
+use ratatui::widgets::{Paragraph, Widget};
 use std::cmp;
 use std::sync::atomic::{AtomicU64, Ordering};
 

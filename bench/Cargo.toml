@@ -1,5 +1,5 @@
 [package]
-name = "tui-textarea-bench"
+name = "ratatui-textarea-bench"
 version = "0.0.0"
 edition = "2021"
 publish = false
@@ -9,11 +9,11 @@ license = "MIT"
 bench = false
 
 [dependencies]
-tui-textarea = { path = "..", features = ["search"] }
-tui = { version = "0.19", default-features = false }
+ratatui-textarea = { path = "..", features = ["search"] }
+ratatui = { version = "0.23", default-features = false }
 
 [dev-dependencies]
-criterion = "0.3"
+criterion = "0.5.1"
 rand = { version = "0.8.5", features = ["small_rng"] }
 
 [[bench]]

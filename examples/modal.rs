@@ -7,11 +7,11 @@ use std::fmt;
 use std::fs;
 use std::io;
 use std::io::BufRead;
-use tui::backend::CrosstermBackend;
-use tui::style::{Color, Modifier, Style};
-use tui::widgets::{Block, Borders};
-use tui::Terminal;
-use tui_textarea::{CursorMove, Input, Key, Scrolling, TextArea};
+use ratatui::backend::CrosstermBackend;
+use ratatui::style::{Color, Modifier, Style};
+use ratatui::widgets::{Block, Borders};
+use ratatui::Terminal;
+use ratatui_textarea::{CursorMove, Input, Key, Scrolling, TextArea};
 
 enum Mode {
     Normal,

@@ -1,6 +1,6 @@
 use criterion::{criterion_group, criterion_main, Criterion};
-use tui_textarea::{CursorMove, TextArea};
-use tui_textarea_bench::{dummy_terminal, TerminalExt, LOREM};
+use ratatui_textarea::{CursorMove, TextArea};
+use ratatui_textarea_bench::{dummy_terminal, TerminalExt, LOREM};
 
 #[derive(Clone, Copy)]
 enum Kind {

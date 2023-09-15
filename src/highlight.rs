@@ -1,6 +1,6 @@
-use crate::tui::style::Style;
-use crate::tui::text::{Span, Spans};
 use crate::util::{num_digits, spaces};
+use ratatui::style::Style;
+use ratatui::text::{Line, Span};
 use std::borrow::Cow;
 use std::cmp::Ordering;
 
@@ -107,7 +107,7 @@ impl<'a> LineHighlighter<'a> {
         }
     }
 
-    pub fn into_spans(self) -> Spans<'a> {
+    pub fn into_spans(self) -> Line<'a> {
         let Self {
             line,
             mut spans,
@@ -123,7 +123,7 @@ impl<'a> LineHighlighter<'a> {
             if cursor_at_end {
                 spans.push(Span::styled(" ", cursor_style));
             }
-            return Spans::from(spans);
+            return Line::from(spans);
         }
 
         boundaries.sort_unstable_by(|(l, i), (r, j)| match i.cmp(j) {
@@ -159,7 +159,7 @@ impl<'a> LineHighlighter<'a> {
                 if cursor_at_end {
                     spans.push(Span::styled(" ", cursor_style));
                 }
-                return Spans::from(spans);
+                return Line::from(spans);
             }
         }
     }

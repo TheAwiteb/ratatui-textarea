@@ -5,13 +5,13 @@ use crate::input::{Input, Key};
 use crate::scroll::Scrolling;
 #[cfg(feature = "search")]
 use crate::search::Search;
-use crate::tui::layout::Alignment;
-use crate::tui::style::{Modifier, Style};
-use crate::tui::text::Spans;
-use crate::tui::widgets::{Block, Widget};
 use crate::util::spaces;
 use crate::widget::{Renderer, Viewport};
 use crate::word::{find_word_end_forward, find_word_start_backward};
+use ratatui::layout::Alignment;
+use ratatui::style::{Modifier, Style};
+use ratatui::text::Line;
+use ratatui::widgets::{Block, Widget};
 
 /// A type to manage state of textarea.
 ///
@@ -19,7 +19,7 @@ use crate::word::{find_word_end_forward, find_word_start_backward};
 /// [`TextArea::from`] creates a textarea from an iterator of lines. [`TextArea::input`] handles key input.
 /// [`TextArea::widget`] builds a widget to render. And [`TextArea::lines`] returns line texts.
 /// ```
-/// use tui_textarea::{TextArea, Input, Key};
+/// use ratatui_textarea::{TextArea, Input, Key};
 ///
 /// let mut textarea = TextArea::default();
 ///
@@ -56,7 +56,7 @@ pub struct TextArea<'a> {
 /// handled as line. Ensure that the strings don't contain any newlines. This method is useful to create [`TextArea`]
 /// from [`std::str::Lines`].
 /// ```
-/// use tui_textarea::TextArea;
+/// use ratatui_textarea::TextArea;
 ///
 /// // From `String`
 /// let text = "hello\nworld";
@@ -89,7 +89,7 @@ where
 /// use std::fs;
 /// use std::io::{self, BufRead};
 /// use std::path::Path;
-/// use tui_textarea::TextArea;
+/// use ratatui_textarea::TextArea;
 ///
 /// fn read_from_file<'a>(path: impl AsRef<Path>) -> io::Result<TextArea<'a>> {
 ///     let file = fs::File::open(path.as_ref())?;
@@ -104,7 +104,7 @@ impl<'a, S: Into<String>> FromIterator<S> for TextArea<'a> {
 
 /// Create [`TextArea`] instance with empty text content.
 /// ```
-/// use tui_textarea::TextArea;
+/// use ratatui_textarea::TextArea;
 ///
 /// let textarea = TextArea::default();
 /// assert_eq!(textarea.lines(), [""]);
@@ -120,7 +120,7 @@ impl<'a> TextArea<'a> {
     /// Create [`TextArea`] instance with given lines. If you have value other than `Vec<String>`, [`TextArea::from`]
     /// may be more useful.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let lines = vec!["hello".to_string(), "...".to_string(), "goodbye".to_string()];
     /// let textarea = TextArea::new(lines);
@@ -156,7 +156,7 @@ impl<'a> TextArea<'a> {
     /// method can take the event values directly.
     /// This method returns if the input modified text contents or not in the textarea.
     /// ```ignore
-    /// use tui_textarea::{TextArea, Key, Input};
+    /// use ratatui_textarea::{TextArea, Key, Input};
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -575,7 +575,7 @@ impl<'a> TextArea<'a> {
 
     /// Insert a single character at current cursor position.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -598,7 +598,7 @@ impl<'a> TextArea<'a> {
     /// Insert a string at current cursor position. Currently the string must not contain any newlines. This method
     /// returns if some text was inserted or not in the textarea.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -634,7 +634,7 @@ impl<'a> TextArea<'a> {
     /// Delete a string in current cursor line. The `chars` parameter means number of characters, not a byte length of
     /// the string. This method returns if some text was deleted or not in the textarea.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::from(["🐱🐶🐰🐮"]);
     ///
@@ -671,7 +671,7 @@ impl<'a> TextArea<'a> {
     /// method returns if a tab string was inserted or not in the textarea.
     /// textarea.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::from(["hi"]);
     ///
@@ -693,7 +693,7 @@ impl<'a> TextArea<'a> {
 
     /// Insert a newline at current cursor position.
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["hi"]);
     ///
@@ -720,7 +720,7 @@ impl<'a> TextArea<'a> {
     /// Delete a newline from **head** of current cursor line. This method returns if a newline was deleted or not in
     /// the textarea.
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["hello", "world"]);
     ///
@@ -747,7 +747,7 @@ impl<'a> TextArea<'a> {
     /// Delete one character before cursor. When the cursor is at head of line, the newline before the cursor will be
     /// removed. This method returns if some text was deleted or not in the textarea.
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["abc"]);
     ///
@@ -775,7 +775,7 @@ impl<'a> TextArea<'a> {
     /// Delete one character next to cursor. When the cursor is at end of line, the newline next to the cursor will be
     /// removed. This method returns if a character was deleted or not in the textarea.
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["abc"]);
     ///
@@ -795,7 +795,7 @@ impl<'a> TextArea<'a> {
     /// Delete string from cursor to end of the line. When the cursor is at end of line, the newline next to the cursor
     /// is removed. This method returns if some text was deleted or not in the textarea.
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["abcde"]);
     ///
@@ -816,7 +816,7 @@ impl<'a> TextArea<'a> {
     /// Delete string from cursor to head of the line. When the cursor is at head of line, the newline before the cursor
     /// will be removed. This method returns if some text was deleted or not in the textarea.
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["abcde"]);
     ///
@@ -841,7 +841,7 @@ impl<'a> TextArea<'a> {
     /// This method returns if some text was deleted or not in the textarea.
     ///
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["aaa bbb ccc"]);
     ///
@@ -870,7 +870,7 @@ impl<'a> TextArea<'a> {
     /// This method returns if some text was deleted or not in the textarea.
     ///
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::from(["aaa bbb ccc"]);
     ///
@@ -901,7 +901,7 @@ impl<'a> TextArea<'a> {
     /// [`TextArea::delete_word`], [`TextArea::delete_next_word`]. This method returns if some text was inserted or not
     /// in the textarea.
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["aaa bbb ccc"]);
     ///
@@ -917,7 +917,7 @@ impl<'a> TextArea<'a> {
     /// Move the cursor to the position specified by the [`CursorMove`] parameter. For each kind of cursor moves, see
     /// the document of [`CursorMove`].
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["abc", "def"]);
     ///
@@ -934,7 +934,7 @@ impl<'a> TextArea<'a> {
 
     /// Undo the last modification. This method returns if the undo modified text contents or not in the textarea.
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["abc def"]);
     ///
@@ -954,7 +954,7 @@ impl<'a> TextArea<'a> {
 
     /// Redo the last undo change. This method returns if the redo modified text contents or not in the textarea.
     /// ```
-    /// use tui_textarea::{TextArea, CursorMove};
+    /// use ratatui_textarea::{TextArea, CursorMove};
     ///
     /// let mut textarea = TextArea::from(["abc def"]);
     ///
@@ -974,7 +974,7 @@ impl<'a> TextArea<'a> {
         }
     }
 
-    pub(crate) fn line_spans<'b>(&'b self, line: &'b str, row: usize, lnum_len: u8) -> Spans<'b> {
+    pub(crate) fn line_spans<'b>(&'b self, line: &'b str, row: usize, lnum_len: u8) -> Line<'b> {
         let mut hl = LineHighlighter::new(line, self.cursor_style, self.tab_len);
 
         if let Some(style) = self.line_number_style {
@@ -993,13 +993,13 @@ impl<'a> TextArea<'a> {
         hl.into_spans()
     }
 
-    /// Build a tui-rs widget to render the current state of the textarea. The widget instance returned from this
+    /// Build a ratatui widget to render the current state of the textarea. The widget instance returned from this
     /// method can be rendered with [`tui::terminal::Frame::render_widget`].
     /// ```no_run
-    /// use tui::backend::CrosstermBackend;
-    /// use tui::layout::{Constraint, Direction, Layout};
-    /// use tui::Terminal;
-    /// use tui_textarea::TextArea;
+    /// use ratatui::backend::CrosstermBackend;
+    /// use ratatui::layout::{Constraint, Direction, Layout};
+    /// use ratatui::Terminal;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1025,8 +1025,8 @@ impl<'a> TextArea<'a> {
 
     /// Set the style of textarea. By default, textarea is not styled.
     /// ```
-    /// use tui::style::{Style, Color};
-    /// use tui_textarea::TextArea;
+    /// use ratatui::style::{Style, Color};
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     /// let style = Style::default().fg(Color::Red);
@@ -1044,8 +1044,8 @@ impl<'a> TextArea<'a> {
 
     /// Set the block of textarea. By default, no block is set.
     /// ```
-    /// use tui_textarea::TextArea;
-    /// use tui::widgets::{Block, Borders};
+    /// use ratatui_textarea::TextArea;
+    /// use ratatui::widgets::{Block, Borders};
     ///
     /// let mut textarea = TextArea::default();
     /// let block = Block::default().borders(Borders::ALL).title("Block Title");
@@ -1058,8 +1058,8 @@ impl<'a> TextArea<'a> {
 
     /// Remove the block of textarea which was set by [`TextArea::set_block`].
     /// ```
-    /// use tui_textarea::TextArea;
-    /// use tui::widgets::{Block, Borders};
+    /// use ratatui_textarea::TextArea;
+    /// use ratatui::widgets::{Block, Borders};
     ///
     /// let mut textarea = TextArea::default();
     /// let block = Block::default().borders(Borders::ALL).title("Block Title");
@@ -1076,10 +1076,10 @@ impl<'a> TextArea<'a> {
         self.block.as_ref()
     }
 
-    /// Set the length of tab character. Due to limitation of tui-rs, hard tab is not supported. Setting 0 disables tab
+    /// Set the length of tab character. Due to limitation of ratatui, hard tab is not supported. Setting 0 disables tab
     /// inputs.
     /// ```
-    /// use tui_textarea::{TextArea, Input, Key};
+    /// use ratatui_textarea::{TextArea, Input, Key};
     ///
     /// let mut textarea = TextArea::default();
     /// let tab_input = Input { key: Key::Tab, ctrl: false, alt: false };
@@ -1104,7 +1104,7 @@ impl<'a> TextArea<'a> {
     /// Set if a hard tab is used or not for indent. When `true` is set, typing a tab key inserts a hard tab instead of
     /// spaces. By default, hard tab is disabled.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1118,7 +1118,7 @@ impl<'a> TextArea<'a> {
 
     /// Get if a hard tab is used for indent or not.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1132,7 +1132,7 @@ impl<'a> TextArea<'a> {
 
     /// Get a string for indent. It consists of spaces by default. When hard tab is enabled, it is a tab character.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1163,8 +1163,8 @@ impl<'a> TextArea<'a> {
     /// Set the style of line at cursor. By default, the cursor line is styled with underline. To stop styling the
     /// cursor line, set the default style.
     /// ```
-    /// use tui::style::{Style, Color};
-    /// use tui_textarea::TextArea;
+    /// use ratatui::style::{Style, Color};
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1188,8 +1188,8 @@ impl<'a> TextArea<'a> {
     /// that line numbers are disabled by default. If you want to show line numbers but don't want to style them, set
     /// the default style.
     /// ```
-    /// use tui::style::{Style, Color};
-    /// use tui_textarea::TextArea;
+    /// use ratatui::style::{Style, Color};
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1205,8 +1205,8 @@ impl<'a> TextArea<'a> {
     /// Remove the style of line number which was set by [`TextArea::set_line_number_style`]. After calling this
     /// method, Line numbers will no longer be shown.
     /// ```
-    /// use tui::style::{Style, Color};
-    /// use tui_textarea::TextArea;
+    /// use ratatui::style::{Style, Color};
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1226,8 +1226,8 @@ impl<'a> TextArea<'a> {
     /// Set the style of cursor. By default, a cursor is rendered in the reversed color. Setting the same style as
     /// cursor line hides a cursor.
     /// ```
-    /// use tui::style::{Style, Color};
-    /// use tui_textarea::TextArea;
+    /// use ratatui::style::{Style, Color};
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1248,7 +1248,7 @@ impl<'a> TextArea<'a> {
     /// never be empty because an empty text means a slice containing one empty line. This is correct since any text
     /// file must end with a newline.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     /// assert_eq!(textarea.lines(), [""]);
@@ -1268,7 +1268,7 @@ impl<'a> TextArea<'a> {
 
     /// Convert [`TextArea`] instance into line texts.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1284,7 +1284,7 @@ impl<'a> TextArea<'a> {
 
     /// Get the current cursor position. 0-base character-wise (row, col) cursor position.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     /// assert_eq!(textarea.cursor(), (0, 0));
@@ -1302,8 +1302,8 @@ impl<'a> TextArea<'a> {
     /// Set text alignment. When [`Alignment::Center`] or [`Alignment::Right`] is set, line number is automatically
     /// disabled because those alignments don't work well with line numbers.
     /// ```
-    /// use tui_textarea::TextArea;
-    /// use tui::layout::Alignment;
+    /// use ratatui_textarea::TextArea;
+    /// use ratatui::layout::Alignment;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1319,8 +1319,8 @@ impl<'a> TextArea<'a> {
 
     /// Get current text alignment. The default alignment is [`Alignment::Left`].
     /// ```
-    /// use tui_textarea::TextArea;
-    /// use tui::layout::Alignment;
+    /// use ratatui_textarea::TextArea;
+    /// use ratatui::layout::Alignment;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1332,7 +1332,7 @@ impl<'a> TextArea<'a> {
 
     /// Check if the textarea has a empty content.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let textarea = TextArea::default();
     /// assert!(textarea.is_empty());
@@ -1347,7 +1347,7 @@ impl<'a> TextArea<'a> {
     /// Get the yanked text. Text is automatically yanked when deleting strings by [`TextArea::delete_line_by_head`],
     /// [`TextArea::delete_line_by_end`], [`TextArea::delete_word`], [`TextArea::delete_next_word`].
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::from(["abc"]);
     ///
@@ -1361,7 +1361,7 @@ impl<'a> TextArea<'a> {
     /// Set a yanked text. The text can be inserted by [`TextArea::paste`]. The string passed to method must not contain
     /// any newlines.
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1383,7 +1383,7 @@ impl<'a> TextArea<'a> {
     /// When the pattern is invalid, the search pattern will not be updated and an error will be returned.
     ///
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::from(["hello, world", "goodbye, world"]);
     ///
@@ -1412,7 +1412,7 @@ impl<'a> TextArea<'a> {
     /// method returns `None`.
     ///
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1436,7 +1436,7 @@ impl<'a> TextArea<'a> {
     /// move to the next match ignoring the match at the current position.
     ///
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::from(["hello", "helloo", "hellooo"]);
     ///
@@ -1484,7 +1484,7 @@ impl<'a> TextArea<'a> {
     /// move to the next match ignoring the match at the current position.
     ///
     /// ```
-    /// use tui_textarea::TextArea;
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::from(["hello", "helloo", "hellooo"]);
     ///
@@ -1522,8 +1522,8 @@ impl<'a> TextArea<'a> {
     /// Get the text style at matches of text search. The default style is colored with blue in background.
     ///
     /// ```
-    /// use tui::style::{Style, Color};
-    /// use tui_textarea::TextArea;
+    /// use ratatui::style::{Style, Color};
+    /// use ratatui_textarea::TextArea;
     ///
     /// let textarea = TextArea::default();
     ///
@@ -1538,8 +1538,8 @@ impl<'a> TextArea<'a> {
     /// Set the text style at matches of text search. The default style is colored with blue in background.
     ///
     /// ```
-    /// use tui::style::{Style, Color};
-    /// use tui_textarea::TextArea;
+    /// use ratatui::style::{Style, Color};
+    /// use ratatui_textarea::TextArea;
     ///
     /// let mut textarea = TextArea::default();
     ///
@@ -1559,10 +1559,10 @@ impl<'a> TextArea<'a> {
     /// the cursor position will be adjusted to stay in the viewport using the same logic as [`CursorMove::InViewport`].
     ///
     /// ```
-    /// # use tui::buffer::Buffer;
-    /// # use tui::layout::Rect;
-    /// # use tui::widgets::Widget;
-    /// use tui_textarea::TextArea;
+    /// # use ratatui::buffer::Buffer;
+    /// # use ratatui::layout::Rect;
+    /// # use ratatui::widgets::Widget;
+    /// use ratatui_textarea::TextArea;
     ///
     /// // Let's say terminal height is 8.
     ///
@@ -1605,18 +1605,18 @@ mod tests {
     // Seaparate tests for ratatui support
     #[test]
     fn scroll() {
-        use crate::tui::buffer::Buffer;
-        use crate::tui::layout::Rect;
-        use crate::tui::widgets::Widget;
+        use ratatui::buffer::Buffer;
+        use ratatui::layout::Rect;
+        use ratatui::widgets::Widget;
 
-        let mut textarea: TextArea = (0..20).into_iter().map(|i| i.to_string()).collect();
+        let mut textarea: TextArea = (0..20).map(|i| i.to_string()).collect();
         let r = Rect {
             x: 0,
             y: 0,
             width: 24,
             height: 8,
         };
-        let mut b = Buffer::empty(r.clone());
+        let mut b = Buffer::empty(r);
         textarea.widget().render(r, &mut b);
 
         textarea.scroll((15, 0));

@@ -1,47 +1,35 @@
 [package]
-name = "tui-textarea"
-version = "0.2.0"
+name = "ratatui-textarea"
+version = "0.3.0"
 edition = "2021"
 rust-version = "1.56.1"
-authors = ["rhysd <lin90162@yahoo.co.jp>"]
+authors = ["Awiteb <awiteb@hotmail.com>", "rhysd <lin90162@yahoo.co.jp>"]
 description = """
-tui-textarea is a simple yet powerful text editor widget for tui-rs and ratatui. Multi-line
-text editor can be easily put as part of your TUI application.
+ratatui is a simple yet powerful text editor widget for ratatui. Multi-line
+text editor can be easily put as part of your ratatui application. Forked from ratatui-textarea.
 """
 license = "MIT"
-homepage = "https://github.com/rhysd/tui-textarea#readme"
-repository = "https://github.com/rhysd/tui-textarea"
+homepage = "https://github.com/TheAwiteb/ratatui-textarea"
+repository = "https://github.com/TheAwiteb/ratatui-textarea"
 readme = "README.md"
 categories = ["text-editors", "text-processing"]
-keywords = ["tui", "textarea", "editor", "input", "edit", "ratatui"]
-include = [
-    "/src",
-    "/examples",
-    "/README.md",
-    "/LICENSE.txt",
-]
+keywords = ["tui", "ratatui", "textarea", "editor", "input"]
+include = ["/src", "/examples", "/README.md", "/LICENSE.txt"]
 
 [features]
 default = ["crossterm"]
-# Features to use tui-rs
-crossterm = ["dep:crossterm", "tui/crossterm"]
-termion = ["dep:termion", "tui/termion"]
-your-backend = ["tui"]
-# Features to use ratatui
-ratatui-crossterm = ["dep:crossterm-026", "ratatui/crossterm"]
-ratatui-termion = ["dep:termion", "ratatui/termion"]
-ratatui-your-backend = ["ratatui"]
+crossterm = ["dep:crossterm", "ratatui/crossterm"]
+termion = ["dep:termion", "ratatui/termion"]
+your-backend = ["ratatui"]
 # Other optional features
 search = ["dep:regex"]
 
 [dependencies]
-crossterm = { package = "crossterm", version = "0.25", optional = true }
+crossterm = { package = "crossterm", version = "0.27", optional = true }
 regex = { version = "1", optional = true }
-termion = { version = "1.5", optional = true }
-tui = { version = "0.19", default-features = false, optional = true }
+termion = { version = "2.0.1", optional = true }
 arbitrary = { version = "1", features = ["derive"], optional = true }
-crossterm-026 = { package = "crossterm", version = "0.26", optional = true }
-ratatui = { version = "0.20.1", default-features = false, optional = true }
+ratatui = { version = "0.23", default-features = false, optional = true }
 
 [[example]]
 name = "minimal"
@@ -71,22 +59,8 @@ required-features = ["crossterm"]
 name = "modal"
 required-features = ["crossterm"]
 
-[[example]]
-name = "ratatui_minimal"
-required-features = ["ratatui-crossterm"]
-
-[[example]]
-name = "ratatui_editor"
-required-features = ["ratatui-crossterm", "search"]
-
-[[example]]
-name = "ratatui_termion"
-required-features = ["ratatui-termion"]
-
 [workspace]
-members = [
-    "bench",
-]
+members = ["bench"]
 
 [profile.bench]
 lto = "thin"

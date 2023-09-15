@@ -10,13 +10,13 @@ use std::fs;
 use std::io;
 use std::io::{BufRead, Write};
 use std::path::PathBuf;
-use tui::backend::CrosstermBackend;
-use tui::layout::{Constraint, Direction, Layout};
-use tui::style::{Color, Modifier, Style};
-use tui::text::{Span, Spans};
-use tui::widgets::{Block, Borders, Paragraph};
-use tui::Terminal;
-use tui_textarea::{CursorMove, Input, Key, TextArea};
+use ratatui::backend::CrosstermBackend;
+use ratatui::layout::{Constraint, Direction, Layout};
+use ratatui::style::{Color, Modifier, Style};
+use ratatui::text::{Span, Line};
+use ratatui::widgets::{Block, Borders, Paragraph};
+use ratatui::Terminal;
+use ratatui_textarea::{CursorMove, Input, Key, TextArea};
 
 macro_rules! error {
     ($fmt: expr $(, $args:tt)*) => {{
@@ -223,9 +223,9 @@ impl<'a> Editor<'a> {
 
                 // Render message at bottom
                 let message = if let Some(message) = self.message.take() {
-                    Spans::from(Span::raw(message))
+                    Line::from(Span::raw(message))
                 } else if search_height > 0 {
-                    Spans::from(vec![
+                    Line::from(vec![
                         Span::raw("Press "),
                         Span::styled("Enter", Style::default().add_modifier(Modifier::BOLD)),
                         Span::raw(" to jump to first match and close, "),
@@ -243,7 +243,7 @@ impl<'a> Editor<'a> {
                         Span::raw(" to search previous"),
                     ])
                 } else {
-                    Spans::from(vec![
+                    Line::from(vec![
                         Span::raw("Press "),
                         Span::styled("^Q", Style::default().add_modifier(Modifier::BOLD)),
                         Span::raw(" to quit, "),

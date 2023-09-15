@@ -1,12 +1,12 @@
-// We use empty backend for our benchmark instead of tui::backend::TestBackend to make impact of benchmark from tui-rs
+// We use empty backend for our benchmark instead of ratatui::backend::TestBackend to make impact of benchmark from ratatui
 // as small as possible.
 
 use std::io;
-use tui::backend::Backend;
-use tui::buffer::Cell;
-use tui::layout::Rect;
-use tui::Terminal;
-use tui_textarea::TextArea;
+use ratatui::backend::Backend;
+use ratatui::buffer::Cell;
+use ratatui::layout::Rect;
+use ratatui::Terminal;
+use ratatui_textarea::TextArea;
 
 pub const LOREM: &[&str] = &[
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do",

@@ -10,9 +10,7 @@ For reporting a bug, please make sure your report includes the following points.
 - Environment
   - Your terminal
   - Rust version
-  - `tui` crate version
-
-An example of bug report: https://github.com/rhysd/tui-textarea/issues/1
+  - `ratatui` crate version
 
 ## Submitting a pull request
 
