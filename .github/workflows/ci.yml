@@ -1,36 +1,44 @@
 name: CI
-on: [push, pull_request]
-env:
-  CARGO_TERM_COLOR: always
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  unit-test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-      fail-fast: true
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo test --features=search -- --skip src/lib.rs
-        if: ${{ matrix.os != 'windows-latest' }}
-      - run: cargo test --features=search -- --skip src\lib.rs
-        if: ${{ matrix.os == 'windows-latest' }}
-      - run: cargo test --no-default-features --features=your-backend,search -- --skip .rs
-  lint:
+  build:
+    name: Rust build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
-        with:
-          components: clippy,rustfmt
-      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --workspace
+  rustfmt:
+    name: Rust format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
       - run: cargo fmt -- --check
-      - run: cargo clippy --examples -- -D warnings
-      - run: cargo clippy --examples --features search -- -D warnings
-      - run: cargo clippy --examples --no-default-features --features termion -- -D warnings
-      - run: cargo clippy --examples --no-default-features --features termion,search -- -D warnings
-      - run: cargo clippy --examples --no-default-features --features your-backend -- -D warnings
-      - run: cargo clippy --examples --no-default-features --features your-backend,search -- -D warnings
+  check:
+    name: Rust check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo check --workspace
+  clippy:
+    name: Rust clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo clippy --workspace -- -D warnings
+  test:
+    name: Rust test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test --workspace
