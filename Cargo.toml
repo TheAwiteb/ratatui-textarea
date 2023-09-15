@@ -1,6 +1,6 @@
 [package]
 name = "ratatui-textarea"
-version = "0.3.0"
+version = "0.3.1"
 edition = "2021"
 rust-version = "1.56.1"
 authors = ["Awiteb <awiteb@hotmail.com>", "rhysd <lin90162@yahoo.co.jp>"]
