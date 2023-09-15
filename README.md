@@ -1,8 +1,8 @@
 ratatui-textarea
 ============
 [![crate][crates-io-badge]][crate]
-[![docs][doc-badge]][doc]
 [![CI][ci-badge]][ci]
+[![CD][ci-badge]][cd]
 
 [ratatui-textarea][crate] is a simple yet powerful text editor widget like `<textarea>` in HTML for [ratatui][] (ratatui forked of [tui-textarea][]).
 Multi-line text editor can be easily put as part of your ratatui application.
@@ -630,7 +630,9 @@ ratatui-textarea is distributed under [The MIT License](./LICENSE.txt).
 [doc-badge]: https://docs.rs/ratatui-textarea/badge.svg
 [doc]: https://docs.rs/ratatui-textarea/latest/ratatui_textarea/
 [ci-badge]: https://github.com/TheAwiteb/ratatui-textarea/actions/workflows/ci.yml/badge.svg?event=push
+[cd-badge]: https://github.com/TheAwiteb/ratatui-textarea/actions/workflows/cd.yml/badge.svg?event=push
 [ci]: https://github.com/TheAwiteb/ratatui-textarea/actions/workflows/ci.yml
+[cd]: https://github.com/TheAwiteb/ratatui-textarea/actions/workflows/cd.yml
 [ratatui]: https://github.com/ratatui-org/ratatui
 [termion]: https://docs.rs/termion/latest/termion/
 [crossterm]: https://docs.rs/crossterm/latest/crossterm/
