@@ -26,9 +26,16 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 <!-- This section is for deprecated features removed in this release. -->
 <!-- Format: `- {The removal title}. ([#{PR number}]({PR link}))` -->
 
-<!-- ### Fixed -->
+### Fixed
 <!-- This section is for any bug fixes. -->
 <!-- Format: `- {The bug which was fixed title}. ([#{PR number}]({PR link}))` -->
+
+## [0.3.2] - 2023-09-17
+
+### Changed
+- Fix dependencys version
+- Bump msrv to 1.68.2 (from 1.56.1)
+
 
 ## [0.3.1] - 2023-09-15
 
@@ -40,3 +47,10 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
+
+<!-- Versions and unreleased changes links -->
+
+[Unreleased]: https://github.com/theawiteb/ratatui-textarea
+[0.3.0]: https://github.com/TheAwiteb/ratatui-textarea/releases/tag/v0.3.0
+[0.3.1]: https://github.com/TheAwiteb/ratatui-textarea/releases/tag/v0.3.1
+[0.3.2]: https://github.com/TheAwiteb/ratatui-textarea/releases/tag/v0.3.2
