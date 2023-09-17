@@ -2,7 +2,7 @@
 name = "ratatui-textarea"
 version = "0.3.1"
 edition = "2021"
-rust-version = "1.56.1"
+rust-version = "1.68.2"
 authors = ["Awiteb <awiteb@hotmail.com>", "rhysd <lin90162@yahoo.co.jp>"]
 description = """
 ratatui is a simple yet powerful text editor widget for ratatui. Multi-line
@@ -26,9 +26,9 @@ search = ["dep:regex"]
 
 [dependencies]
 crossterm = { package = "crossterm", version = "0.27", optional = true }
-regex = { version = "1", optional = true }
+regex = { version = "1.9.5", optional = true }
 termion = { version = "2.0.1", optional = true }
-arbitrary = { version = "1", features = ["derive"], optional = true }
+arbitrary = { version = "1.3.0", features = ["derive"], optional = true }
 ratatui = { version = "0.23", default-features = false, optional = true }
 
 [[example]]
