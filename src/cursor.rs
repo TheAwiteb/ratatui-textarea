@@ -240,7 +240,7 @@ impl CursorMove {
 
         match self {
             Forward if col >= lines[row].chars().count() => {
-                (row + 1 < lines.len()).then(|| (row + 1, 0))
+                (row + 1 < lines.len()).then_some((row + 1, 0))
             }
             Forward => Some((row, col + 1)),
             Back if col == 0 => {
