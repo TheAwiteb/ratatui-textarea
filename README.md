@@ -634,6 +634,7 @@ ratatui-textarea is distributed under [The MIT License](./LICENSE.txt).
 [ci]: https://github.com/TheAwiteb/ratatui-textarea/actions/workflows/ci.yml
 [cd]: https://github.com/TheAwiteb/ratatui-textarea/actions/workflows/cd.yml
 [ratatui]: https://github.com/ratatui-org/ratatui
+[tui-textarea]: https://github.com/rhysd/tui-textarea
 [termion]: https://docs.rs/termion/latest/termion/
 [crossterm]: https://docs.rs/crossterm/latest/crossterm/
 [ratatui-backend]: https://docs.rs/ratatui/latest/ratatui/backend/trait.Backend.html
