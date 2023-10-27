@@ -1,8 +1,8 @@
 [package]
 name = "ratatui-textarea"
-version = "0.3.2"
+version = "0.4.0"
 edition = "2021"
-rust-version = "1.68.2"
+rust-version = "1.70.0"
 authors = ["Awiteb <awiteb@hotmail.com>", "rhysd <lin90162@yahoo.co.jp>"]
 description = """
 ratatui is a simple yet powerful text editor widget for ratatui. Multi-line
