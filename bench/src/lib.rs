@@ -1,9 +1,9 @@
 // We use empty backend for our benchmark instead of ratatui::backend::TestBackend to make impact of benchmark from ratatui
 // as small as possible.
 
-use ratatui::backend::Backend;
+use ratatui::backend::{Backend, WindowSize};
 use ratatui::buffer::Cell;
-use ratatui::layout::Rect;
+use ratatui::layout::{Rect, Size};
 use ratatui::Terminal;
 use ratatui_textarea::TextArea;
 use std::io;
@@ -81,6 +81,14 @@ impl Backend for DummyBackend {
             y: 0,
             width: self.width,
             height: self.height,
+        })
+    }
+
+    #[inline]
+    fn window_size(&mut self) -> io::Result<WindowSize> {
+        Ok(WindowSize {
+            columns_rows: Size::from((0, 0)),
+            pixels: Size::from((0, 0)),
         })
     }
 
