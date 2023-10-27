@@ -2,7 +2,7 @@ ratatui-textarea
 ============
 [![crate][crates-io-badge]][crate]
 [![CI][ci-badge]][ci]
-[![CD][ci-badge]][cd]
+[![CD][cd-badge]][cd]
 
 [ratatui-textarea][crate] is a simple yet powerful text editor widget like `<textarea>` in HTML for [ratatui][] (ratatui forked of [tui-textarea][]).
 Multi-line text editor can be easily put as part of your ratatui application.
