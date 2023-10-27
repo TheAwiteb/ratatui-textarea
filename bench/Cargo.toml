@@ -10,7 +10,7 @@ bench = false
 
 [dependencies]
 ratatui-textarea = { path = "..", features = ["search"] }
-ratatui = { version = "0.23", default-features = false }
+ratatui = { version = "0.24", default-features = false }
 
 [dev-dependencies]
 criterion = "0.5.1"
