@@ -4,6 +4,9 @@ ratatui-textarea
 [![CI][ci-badge]][ci]
 [![CD][cd-badge]][cd]
 
+> [!warning]
+> This project are no more maintained, [tui-textarea](https://github.com/rhysd/tui-textarea) are now support lastest `ratatui` version
+
 [ratatui-textarea][crate] is a simple yet powerful text editor widget like `<textarea>` in HTML for [ratatui][] (ratatui forked of [tui-textarea][]).
 Multi-line text editor can be easily put as part of your ratatui application.
 
