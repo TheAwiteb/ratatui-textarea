@@ -1,11 +1,11 @@
 [package]
 name = "ratatui-textarea"
-version = "0.4.0"
+version = "0.4.1"
 edition = "2021"
 rust-version = "1.70.0"
 authors = ["Awiteb <awiteb@hotmail.com>", "rhysd <lin90162@yahoo.co.jp>"]
 description = """
-ratatui is a simple yet powerful text editor widget for ratatui. Multi-line
+[deprecated] ratatui is a simple yet powerful text editor widget for ratatui. Multi-line
 text editor can be easily put as part of your ratatui application. Forked from tui-textarea.
 """
 license = "MIT"
